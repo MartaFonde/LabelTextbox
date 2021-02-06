@@ -33,7 +33,8 @@ namespace LabelTextbox
                 if (Enum.IsDefined(typeof(ePosicion), value))
                 {
                     posicion = value;
-                    recolocar();
+                    //recolocar();
+                    Refresh();
                     CambiaPosicion?.Invoke(this, EventArgs.Empty);
                 }
                 else
@@ -58,7 +59,8 @@ namespace LabelTextbox
                 if (value >= 0)
                 {
                     separacion = value;
-                    recolocar();
+                    //recolocar();
+                    Refresh();
                     CambiaSeparacion?.Invoke(this, EventArgs.Empty);
                 }
                 else
@@ -81,7 +83,7 @@ namespace LabelTextbox
                 if (value > 0)
                 {
                     txt.Width = value;
-                    recolocar();
+                    //recolocar();
                 }
                 else
                 {
@@ -101,7 +103,7 @@ namespace LabelTextbox
             set
             {
                 lbl.Text = value;
-                recolocar();
+                //recolocar();
             }
             get
             {
@@ -177,7 +179,7 @@ namespace LabelTextbox
 
         private void LabelTextBox_SizeChanged(object sender, EventArgs e)
         {
-            recolocar();
+            //recolocar();
         }
 
         private void txt_KeyPress(object sender, KeyPressEventArgs e)
@@ -200,12 +202,22 @@ namespace LabelTextbox
             this.TxtChanged?.Invoke(sender, e);  //IMPORTANTE COMPROBRAR QUE O EVENT != NULL --> EVENT = NULL SE NINGUNHA FUNCION O RECOLLE NO FORM (NullException)
         }
 
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            recolocar();
+            e.Graphics.DrawLine(new Pen(Color.Violet),
+                    lbl.Left, this.Height - 1,
+                    lbl.Left + lbl.Width, this.Height - 1);
+        }
+
+
         public LabelTextbox()
         {
             InitializeComponent();
             TextLbl = Name;
             TextTxt = "";
-            recolocar();
+            //recolocar();
         }
 
         
